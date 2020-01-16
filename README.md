@@ -1,2 +1,7 @@
-# COSC3506Project
-Repository for code for COSC3506 Project
+# COSC3506 Project
+
+### The Team
+
+### The Project
+
+### The Implementation
