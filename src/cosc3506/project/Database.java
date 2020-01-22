@@ -18,6 +18,8 @@ public class Database {
     public static final String USER = "dev";
     public static final String PASS = "ProjectDev#2020";
 
+    private static boolean connection = false;
+
     /**
      * Connects to a database
      * @param host The IP Address or Hostname of the Database Server
@@ -43,5 +45,24 @@ public class Database {
         return conn;
     }
 
+
+    /**
+     * Mutex lock for safe thread syncronization
+     * waitFor waits for no active connection,
+     * then allows the next thread to have a connection
+     */
+    @SuppressWarnings("ALL")
+    public static void waitFor() {
+        while(connection);
+        connection = true;
+    }
+
+    /**
+     * Mutex lock for safe thread syncronization
+     * signal deactivates a connection
+     */
+    public static void signal() {
+        connection = false;
+    }
 
 }
