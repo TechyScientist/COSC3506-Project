@@ -14,10 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LoginScreen extends Application {
     private Label status;
@@ -98,26 +95,30 @@ public class LoginScreen extends Application {
                 Database.waitFor();
 
                 //Run the query
-                String sql = "SELECT * FROM users WHERE username=?;";
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                stmt.setString(1, user.getText());
-                ResultSet set = stmt.executeQuery();
+                String sql = "SELECT * FROM users WHERE username=\"" + user.getText().toLowerCase() + "\";";
+               Statement stmt = conn.createStatement();
+                ResultSet set = stmt.executeQuery(sql);
 
                 //Release the lock, done critical section
                 Database.signal();
 
                 //If the password matches the hash in the database:
-                if(BCrypt.checkpw(pass.getText(), set.getString("password"))) {
-                    //Open the new scene
-                    ps.close();
-                    //new MainMenu.start(new Stage());
+                if(set.next()) {
+                    if (BCrypt.checkpw(pass.getText(), set.getString("password"))) {
+                        //Open the new scene
+                        ps.close();
+                        new MainScreen(user.getText(), set.getString("name")).start(new Stage());
+                    } else {
+                        //Otherwise: Error message
+                        status.setText("Invalid username or password");
+                    }
                 }
                 else {
-                    //Otherwise: Error message
-                    status.setText("Invalid username or password");
+                    status.setText("No User Found");
                 }
             }catch(SQLException ex) {
                 //If the statement could not be executed
+                ex.printStackTrace();
                 status.setText("Database Error");
             }
         }
