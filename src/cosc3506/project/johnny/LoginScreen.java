@@ -69,10 +69,22 @@ public class LoginScreen extends Application {
         //Log in button function
         login.setOnAction(e -> login(user, pass, ps));
 
+        pane.setOnKeyPressed(k -> {
+            switch(k.getCode()) {
+                case ESCAPE:
+                    ps.close();
+                    break;
+                case ENTER:
+                    login(user, pass, ps);
+                    break;
+            }
+        });
+
         //Set up the Scene and Stage
         ps.setScene(new Scene(pane));
         ps.setTitle("Please Log On");
         ps.show();
+        ps.requestFocus();
     }
 
 
@@ -107,7 +119,8 @@ public class LoginScreen extends Application {
                     if (BCrypt.checkpw(pass.getText(), set.getString("password"))) {
                         //Open the new scene
                         ps.close();
-                        new MainScreen(user.getText(), set.getString("name")).start(new Stage());
+                        new MainScreen(user.getText(), set.getString("name"),
+                                set.getString("type")).start(new Stage());
                     } else {
                         //Otherwise: Error message
                         status.setText("Invalid username or password");
