@@ -55,7 +55,7 @@ public class MainScreen extends Application {
 
         directory.setOnAction(e -> {
             ps.close();
-            //TODO: new Directory().start(new Stage());
+            new Directory().start(new Stage());
         });
 
         logout.setOnAction(e -> {
@@ -74,7 +74,7 @@ public class MainScreen extends Application {
             }
         });
 
-        Scene scene = new Scene(pane);
+        Scene scene = new Scene(pane,550, 400);
         ps.setScene(scene);
         ps.setTitle("Session: " + user);
         ps.show();
