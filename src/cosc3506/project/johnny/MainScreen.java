@@ -74,6 +74,12 @@ public class MainScreen extends Application {
             }
         });
 
+        ps.setOnCloseRequest(e -> {
+            name = user = type = null;
+            ps.close();
+            new LoginScreen().start(new Stage());
+        });
+
         Scene scene = new Scene(pane,550, 400);
         ps.setScene(scene);
         ps.setTitle("Session: " + user);

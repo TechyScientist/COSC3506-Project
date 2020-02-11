@@ -72,6 +72,11 @@ public class Directory extends Application {
             }
         });
 
+        ps.setOnCloseRequest(e -> {
+            ps.close();
+            new MainScreen().start(new Stage());
+        });
+
         Scene scene = new Scene(outer, 550, 400);
         ps.setScene(scene);
         ps.setTitle("User Directory");
