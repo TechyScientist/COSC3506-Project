@@ -12,15 +12,14 @@ public class MainScreen extends Application {
 
     public static String user, name, type;
 
+
     public MainScreen(String user, String name, String type) {
         MainScreen.name = name;
         MainScreen.user = user;
         MainScreen.type = type;
     }
 
-    public MainScreen() {
-
-    }
+    public MainScreen(){}
 
     @Override
     public void start(Stage ps) {
@@ -67,6 +66,10 @@ public class MainScreen extends Application {
                 ps.close();
                 new UserAdd().start(new Stage());
             });
+            delU.setOnAction(e -> {
+                ps.close();
+                new UserDel().start(new Stage());
+            });
 
             delU.setFont(Font.font(delU.getFont().getFamily(), 12));
             delU.setMaxWidth(Double.MAX_VALUE);
@@ -112,7 +115,8 @@ public class MainScreen extends Application {
                     break;
                 case R:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {
-
+                        ps.close();
+                        new UserDel().start(new Stage());
                     }
                     break;
                 case X:

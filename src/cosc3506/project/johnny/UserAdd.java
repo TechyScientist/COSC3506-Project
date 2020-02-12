@@ -75,6 +75,7 @@ public class UserAdd extends Application {
     private void add(TextField name, TextField username, PasswordField pass,
                      PasswordField conf, ComboBox<String> type, Label status) {
         try {
+            Database.waitFor();
             String sql = "SELECT * FROM users WHERE username=\"" + username.getText().toLowerCase() + "\";";
             Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
             Statement stmt = conn.createStatement();
@@ -107,7 +108,7 @@ public class UserAdd extends Application {
                     status.setText("Empty Fields");
                 }
             }
-
+            Database.signal();
         }
         catch (SQLException ex) {
             status.setText("Server error");
