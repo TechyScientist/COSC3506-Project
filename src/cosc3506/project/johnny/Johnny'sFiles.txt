@@ -1,1 +1,10 @@
 The files in this package were written by Johnny C.
+
+I made the following files:
+  LoginScreen.java - the login screen
+  MainScreen.java - the home screen for logged in users
+  Directory.java - a user directory
+  UserAdd.java - administrators can add users here
+  UserDel.java - administrators can delete users they have added
+  UserMod.java - administrators can promote or demote users they have added
+  AdminPasswordReset.java - administrators can reset the passwords of users they have added
