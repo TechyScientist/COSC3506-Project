@@ -57,6 +57,7 @@ public class MainScreen extends Application {
         if(!MainScreen.type.equalsIgnoreCase("standard")) {
             Button addU = new Button("Add User (A)");
             Button delU = new Button("Delete User (R)");
+            Button modU = new Button("Modify User (M)");
             Button chUPass = new Button("Reset Password (X)");
 
             addU.setFont(Font.font(addU.getFont().getFamily(), 12));
@@ -66,10 +67,19 @@ public class MainScreen extends Application {
                 ps.close();
                 new UserAdd().start(new Stage());
             });
+
             delU.setOnAction(e -> {
                 ps.close();
                 new UserDel().start(new Stage());
             });
+
+            modU.setOnAction(e -> {
+                ps.close();
+                new UserMod().start(new Stage());
+            });
+            modU.setFont(Font.font(modU.getFont().getFamily(), 12));
+            modU.setMaxWidth(Double.MAX_VALUE);
+            pane.add(modU, 0, ++row, 3, 1);
 
             delU.setFont(Font.font(delU.getFont().getFamily(), 12));
             delU.setMaxWidth(Double.MAX_VALUE);
@@ -119,6 +129,11 @@ public class MainScreen extends Application {
                         new UserDel().start(new Stage());
                     }
                     break;
+                case M:
+                    if(!MainScreen.type.equalsIgnoreCase("standard")) {
+                        ps.close();
+                        new UserMod().start(new Stage());
+                    }
                 case X:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {
 

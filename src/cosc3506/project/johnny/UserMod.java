@@ -5,15 +5,17 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class UserDel extends Application {
+public class UserMod extends Application {
 
     private Label status;
 
@@ -39,18 +41,24 @@ public class UserDel extends Application {
             }
         }
         catch(SQLException ex) {
-            status.setText("Could not remove user");
+            status.setText("Could not modify user");
         }
 
-        pane.add(new Label("User to Delete:"), 0, 1);
+        pane.add(new Label("User to Modify:"), 0, 1);
         ComboBox<String> user = new ComboBox<>(FXCollections.observableArrayList(params));
+
+        String[] params2 = {"Standard", "Admin"};
+
+        pane.add(new Label("New User Type:"), 0, 2);
+        ComboBox<String> newType = new ComboBox<>(FXCollections.observableArrayList(params2));
 
         Button execDel = new Button("Execute Action");
         execDel.setMaxWidth(Double.MAX_VALUE);
-        execDel.setOnAction(e -> remove(user, status, ps));
+        execDel.setOnAction(e ->modify(user, newType, status));
 
         pane.add(user, 1, 1);
-        pane.add(execDel, 0, 2, 2, 1);
+        pane.add(newType, 1, 2);
+        pane.add(execDel, 0, 3, 2, 1);
         execDel.setMaxWidth(Double.MAX_VALUE);
 
 
@@ -61,7 +69,7 @@ public class UserDel extends Application {
                     new MainScreen().start(new Stage());
                     break;
                 case ENTER:
-                    remove(user, status, ps);
+                    modify(user, newType, status);
                     break;
             }
         });
@@ -73,27 +81,27 @@ public class UserDel extends Application {
 
         Scene scene = new Scene(pane);
         ps.setScene(scene);
-        ps.setTitle("Remove a User");
+        ps.setTitle("Modify a User");
         ps.show();
         ps.requestFocus();
 
     }
 
-    private void remove(ComboBox<String> user, Label status, Stage ps) {
+    private void modify(ComboBox<String> user, ComboBox<String> newType, Label status) {
         try {
-            if (!user.getSelectionModel().isEmpty()) {
-                String sql = "DELETE FROM users WHERE username=?;";
+            if (!user.getSelectionModel().isEmpty() && !newType.getSelectionModel().isEmpty()) {
+                String sql = "UPDATE users SET type=? WHERE username=?;";
                 Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, user.getSelectionModel().getSelectedItem());
+                pstmt.setString(1, newType.getSelectionModel().getSelectedItem().toLowerCase());
+                pstmt.setString(2, user.getSelectionModel().getSelectedItem());
                 pstmt.execute();
-                ps.close();
-                UserDel d = new UserDel();
-                d.start(new Stage());
-                d.status.setText("Deleted user \"" + user.getSelectionModel().getSelectedItem() + "\".");
+                status.setText("Modified user \"" + user.getSelectionModel().getSelectedItem() + "\".");
+                user.getSelectionModel().clearSelection();
+                newType.getSelectionModel().clearSelection();
             }
         } catch(SQLException ex) {
-            status.setText("Unable to Delete User");
+            status.setText("Unable to Modify User");
         }
     }
 
