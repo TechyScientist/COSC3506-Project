@@ -104,7 +104,7 @@ public class LoginScreen extends Application {
         else {
             try {
                 //Begin critical section, acquire lock
-                Database.waitFor();
+               
 
                 //Run the query
                 String sql = "SELECT * FROM users WHERE username=\"" + user.getText().toLowerCase() + "\";";
@@ -112,7 +112,7 @@ public class LoginScreen extends Application {
                 ResultSet set = stmt.executeQuery(sql);
 
                 //Release the lock, done critical section
-                Database.signal();
+
 
                 //If the password matches the hash in the database:
                 if(set.next()) {

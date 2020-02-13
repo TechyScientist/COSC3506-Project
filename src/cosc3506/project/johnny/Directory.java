@@ -95,12 +95,10 @@ public class Directory extends Application {
 
             Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
 
-            Database.waitFor();
             String sql = "SELECT * FROM users" +
                     (term.getText() == null ? ";" : " WHERE " + on.toLowerCase() + " LIKE \"%" + term.getText() + "%\";");
             Statement stmt = conn.createStatement();
             ResultSet set = stmt.executeQuery(sql);
-            Database.signal();
 
             int row = 0;
 

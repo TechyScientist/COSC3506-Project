@@ -29,13 +29,11 @@ public class UserDel extends Application {
         GridPane.setHalignment(status, HPos.CENTER);
         ArrayList<String> params = new ArrayList<>();
         try {
-            Database.waitFor();
             String sql = "SELECT username FROM users WHERE username <> \"system\" AND username <> \""
                     + MainScreen.user + "\";";
             Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
             Statement stmt = conn.createStatement();
             ResultSet set = stmt.executeQuery(sql);
-            Database.signal();
             while(set.next()) {
                 params.add(set.getString("username"));
             }
