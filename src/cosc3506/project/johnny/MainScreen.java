@@ -77,6 +77,11 @@ public class MainScreen extends Application {
                 ps.close();
                 new UserMod().start(new Stage());
             });
+
+            chUPass.setOnAction(e -> {
+                ps.close();
+                new AdminPasswordReset().start(new Stage());
+            });
             modU.setFont(Font.font(modU.getFont().getFamily(), 12));
             modU.setMaxWidth(Double.MAX_VALUE);
             pane.add(modU, 0, ++row, 3, 1);
@@ -136,7 +141,8 @@ public class MainScreen extends Application {
                     }
                 case X:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {
-
+                        ps.close();
+                        new AdminPasswordReset().start(new Stage());
                     }
                     break;
             }
