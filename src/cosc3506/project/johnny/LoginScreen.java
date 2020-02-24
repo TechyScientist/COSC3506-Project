@@ -16,6 +16,12 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 
+/**
+ * @author Johnny Console
+ * Class: LoginScreen
+ * Purpose: Validate user credentials
+ * Written: 16 Jan 2020
+ */
 public class LoginScreen extends Application {
     private Label status;
 

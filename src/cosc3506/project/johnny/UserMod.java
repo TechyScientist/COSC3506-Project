@@ -15,6 +15,14 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * @author Johnny Console
+ * Class: UserMod
+ * Purpose: Modify User profiles
+ * Administrators can promote and
+ * demote user accounts
+ * Written: 16 Jan 2020
+ */
 public class UserMod extends Application {
 
     private Label status;
@@ -87,6 +95,12 @@ public class UserMod extends Application {
 
     }
 
+    /**
+     * Updates database with new user options
+     * @param user The user selector
+     * @param newType The type selector
+     * @param status The status label
+     */
     private void modify(ComboBox<String> user, ComboBox<String> newType, Label status) {
         try {
             if (!user.getSelectionModel().isEmpty() && !newType.getSelectionModel().isEmpty()) {

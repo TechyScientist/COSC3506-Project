@@ -13,6 +13,13 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * @author Johnny Console
+ * Class: UserDel
+ * Purpose: Deletion of user profiles by
+ * Administrators
+ * Written: 16 Jan 2020
+ */
 public class UserDel extends Application {
 
     private Label status;
@@ -79,6 +86,12 @@ public class UserDel extends Application {
 
     }
 
+    /**
+     * Removes a user from the database
+     * @param user The user selector
+     * @param status The status label
+     * @param ps The stage
+     */
     private void remove(ComboBox<String> user, Label status, Stage ps) {
         try {
             if (!user.getSelectionModel().isEmpty()) {

@@ -17,6 +17,14 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * @author Johnny Console
+ * Class: AdminPasswordReset
+ * Purpose: Allow admninistrators to
+ * reset passwords of users they have
+ * added to the system
+ * Written: 16 Jan 2020
+ */
 public class AdminPasswordReset extends Application {
 
     private Label status;
@@ -91,6 +99,13 @@ public class AdminPasswordReset extends Application {
 
     }
 
+    /**
+     * Executes the reset action
+     * @param user The user selector
+     * @param pass The new password
+     * @param conf Confirmation of the new password
+     * @param status The status label
+     */
     private void reset(ComboBox<String> user,PasswordField pass, PasswordField conf, Label status) {
         try {
             if (!user.getSelectionModel().isEmpty() && !pass.getText().equals("")

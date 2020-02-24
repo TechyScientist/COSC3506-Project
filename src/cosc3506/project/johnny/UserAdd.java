@@ -13,6 +13,13 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 
+/**
+ * @author Johnny Console
+ * Class: UserAdd
+ * Purpose: Adds a user into the
+ * Database
+ * Written: 16 Jan 2020
+ */
 public class UserAdd extends Application {
 
     @Override
@@ -72,6 +79,15 @@ public class UserAdd extends Application {
 
     }
 
+    /**
+     * Carries out the adding operation
+     * @param name The new user's name
+     * @param username The new user's username
+     * @param pass The new user's password
+     * @param conf The confirmation password
+     * @param type The new user's type
+     * @param status The status label
+     */
     private void add(TextField name, TextField username, PasswordField pass,
                      PasswordField conf, ComboBox<String> type, Label status) {
         try {

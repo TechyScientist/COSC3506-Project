@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class Database {
     public static final String HOST = "10.14.0.10";
-    //The above host is only available on AlgomaU networked computers.
+    //The above host is only available on Algoma U networked computers.
     public static final String DB = "project";
     public static final String USER = "dev";
     public static final String PASS = "ProjectDev#2020";
