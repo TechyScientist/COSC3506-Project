@@ -8,6 +8,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * @author Johnny Console
+ * Class: MainScreen
+ * Purpose: Main Interface menu
+ * Written: 16 Jan 2020
+ */
 public class MainScreen extends Application {
 
     public static String user, name, type;

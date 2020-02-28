@@ -15,7 +15,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * @author Johnny Console
+ * Class: Directory
+ * Purpose: List user accounts in the system
+ * Written: 16 Jan 2020
+ */
 public class Directory extends Application {
 
     private Label[] headers = {
@@ -80,6 +85,12 @@ public class Directory extends Application {
         ps.requestFocus();
     }
 
+    /**
+     * Executes user search
+     * @param term The search criteria
+     * @param gpane The internal grid pane, the list
+     * @param on The column to search over
+     */
     private void search(TextField term, GridPane gpane, String on) {
         try {
             boolean hasNext = false;
