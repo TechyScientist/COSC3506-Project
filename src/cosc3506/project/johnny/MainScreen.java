@@ -1,5 +1,6 @@
 package cosc3506.project.johnny;
 
+import cosc3506.project.Database;
 import javafx.application.Application;
 import javafx.geometry.*;
 import javafx.scene.Scene;
@@ -7,6 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author Johnny Console
@@ -16,7 +22,8 @@ import javafx.stage.Stage;
  */
 public class MainScreen extends Application {
 
-    public static String user, name, type;
+    static String user, type;
+    private static String  name;
 
 
     public MainScreen(String user, String name, String type) {
@@ -29,7 +36,18 @@ public class MainScreen extends Application {
 
     @Override
     public void start(Stage ps) {
+        int s = 0;
         int row = 1;
+        try {
+            Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
+            Statement stmt = conn.createStatement();
+            ResultSet set = stmt.executeQuery("SELECT COUNT(id) FROM messages WHERE recipient=\"" + user + "\";");
+            if (set.next()) {
+                s = set.getInt("COUNT(id)");
+            }
+        } catch(SQLException ex) {
+            System.err.println("Server Error");
+        }
         GridPane pane = new GridPane();
         pane.setPadding(new Insets(20));
         pane.setVgap(10);
@@ -40,7 +58,7 @@ public class MainScreen extends Application {
         title.setFont(Font.font(title.getFont().getFamily(), 16));
         pane.add(title, 0, 0, 3, 1);
 
-        Button inbox = new Button("Inbox (I)");
+        Button inbox = new Button("Inbox [" + s + "] (I)");
         inbox.setFont(Font.font(inbox.getFont().getFamily(), 12));
         inbox.setMaxWidth(Double.MAX_VALUE);
         pane.add(inbox, 0, row);
@@ -101,6 +119,11 @@ public class MainScreen extends Application {
             pane.add(chUPass, 0, ++row, 3, 1);
         }
 
+        inbox.setOnAction( e -> {
+            ps.close();
+            new Inbox().start(new Stage());
+        });
+
         directory.setOnAction(e -> {
             ps.close();
             new Directory().start(new Stage());
@@ -121,6 +144,8 @@ public class MainScreen extends Application {
                     new LoginScreen().start(new Stage());
                     break;
                 case I:
+                    ps.close();
+                    new Inbox().start(new Stage());
                     break;
                 case D:
                     ps.close();
@@ -160,7 +185,7 @@ public class MainScreen extends Application {
             new LoginScreen().start(new Stage());
         });
 
-        Scene scene = new Scene(pane,300, (!MainScreen.type.equalsIgnoreCase("standard") ? 400 : 200));
+        Scene scene = new Scene(pane,320, (!MainScreen.type.equalsIgnoreCase("standard") ? 400 : 200));
         ps.setScene(scene);
         ps.setTitle("Session: " + user);
         ps.show();
