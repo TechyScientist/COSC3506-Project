@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.ir.BaseNode;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,7 +42,8 @@ public class MainScreen extends Application {
         try {
             Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
             Statement stmt = conn.createStatement();
-            ResultSet set = stmt.executeQuery("SELECT COUNT(id) FROM messages WHERE recipient=\"" + user + "\";");
+            ResultSet set = stmt.executeQuery("SELECT COUNT(id) FROM messages WHERE recipient=\"" +
+                    user + "\" AND status=\"unread\";");
             if (set.next()) {
                 s = set.getInt("COUNT(id)");
             }
@@ -58,6 +60,11 @@ public class MainScreen extends Application {
         title.setFont(Font.font(title.getFont().getFamily(), 16));
         pane.add(title, 0, 0, 3, 1);
 
+        Button compose = new Button("New Message... (N)");
+        compose.setFont(Font.font(compose.getFont().getFamily(), 12));
+        compose.setMaxWidth(Double.MAX_VALUE);
+        pane.add(compose, 0, row++, 3, 1);
+
         Button inbox = new Button("Inbox [" + s + "] (I)");
         inbox.setFont(Font.font(inbox.getFont().getFamily(), 12));
         inbox.setMaxWidth(Double.MAX_VALUE);
@@ -72,6 +79,11 @@ public class MainScreen extends Application {
         profile.setFont(Font.font(profile.getFont().getFamily(), 12));
         profile.setMaxWidth(Double.MAX_VALUE);
         pane.add(profile, 2, row);
+
+        Button backupRestore = new Button("Backup/Restore (B)");
+        backupRestore.setFont(Font.font(backupRestore.getFont().getFamily(), 12));
+        backupRestore.setMaxWidth(Double.MAX_VALUE);
+        pane.add(backupRestore, 0, ++row, 3, 1);
 
         Button logout = new Button("Log Out (Esc)");
         logout.setFont(Font.font(logout.getFont().getFamily(), 12));
@@ -135,6 +147,11 @@ public class MainScreen extends Application {
             new LoginScreen().start(new Stage());
         });
 
+        backupRestore.setOnAction(e -> {
+            ps.close();
+            new BackupRestore().start(new Stage());
+        });
+
 
         pane.setOnKeyPressed(k -> {
             switch(k.getCode()) {
@@ -170,11 +187,16 @@ public class MainScreen extends Application {
                         ps.close();
                         new UserMod().start(new Stage());
                     }
+                    break;
                 case X:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {
                         ps.close();
                         new AdminPasswordReset().start(new Stage());
                     }
+                    break;
+                case B:
+                    ps.close();
+                    new BackupRestore().start(new Stage());
                     break;
             }
         });
@@ -185,7 +207,7 @@ public class MainScreen extends Application {
             new LoginScreen().start(new Stage());
         });
 
-        Scene scene = new Scene(pane,320, (!MainScreen.type.equalsIgnoreCase("standard") ? 400 : 200));
+        Scene scene = new Scene(pane);
         ps.setScene(scene);
         ps.setTitle("Session: " + user);
         ps.show();
