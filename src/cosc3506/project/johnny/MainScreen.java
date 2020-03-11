@@ -153,6 +153,11 @@ public class MainScreen extends Application {
         });
 
 
+        compose.setOnAction(e -> {
+            ps.close();
+            new Compose().start(new Stage());
+        });
+
         pane.setOnKeyPressed(k -> {
             switch(k.getCode()) {
                 case ESCAPE:
@@ -187,6 +192,10 @@ public class MainScreen extends Application {
                         ps.close();
                         new UserMod().start(new Stage());
                     }
+                    break;
+                case N:
+                    ps.close();
+                    new Compose().start(new Stage());
                     break;
                 case X:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {
