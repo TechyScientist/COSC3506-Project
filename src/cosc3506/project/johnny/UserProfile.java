@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 
@@ -55,7 +56,26 @@ public class UserProfile extends Application {
         pane.addRow(4, retMain, save);
 
         save.setOnAction(e -> {
-
+            try {
+                if (!pass.getText().equals("") && !conf.getText().equals("")) {
+                    if(pass.getText().equals(conf.getText())) {
+                        String sql = "UPDATE users SET password=? WHERE username=?;";
+                        Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        pstmt.setString(1, BCrypt.hashpw(pass.getText(), BCrypt.gensalt()));
+                        pstmt.setString(2, MainScreen.user);
+                        pstmt.execute();
+                        status.setText("Password changed successfully.");
+                        pass.setText("");
+                        conf.setText("");
+                    }
+                    else {
+                        status.setText("Passwords Don't Match");
+                    }
+                }
+            } catch(SQLException ex) {
+                status.setText("Unable to Reset Password");
+            }
         });
 
         retMain.setOnAction(e-> {
