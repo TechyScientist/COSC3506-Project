@@ -123,6 +123,18 @@ public class LoginScreen extends Application {
                 //If the password matches the hash in the database:
                 if(set.next()) {
                     if (BCrypt.checkpw(pass.getText(), set.getString("password"))) {
+                      try {
+                            sql = "UPDATE users SET status=? WHERE username=?;";
+                            PreparedStatement pstmt = conn.prepareStatement(sql);
+                            pstmt.setString(1, "Available");
+                            pstmt.setString(2, user.getText());
+                            pstmt.execute();
+                            UserProfile.myStatus = "Available";
+                        }
+                        catch (SQLException ex) {
+                            System.out.println("Could Not Save Status");
+                        }
+
                         //Open the new scene
                         ps.close();
                         new MainScreen(user.getText(), set.getString("name"),

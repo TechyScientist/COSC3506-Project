@@ -10,10 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.BaseNode;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * @author Johnny Console
@@ -142,6 +139,19 @@ public class MainScreen extends Application {
         });
 
         logout.setOnAction(e -> {
+
+            try {
+                Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
+                String sql = "UPDATE users SET status=? WHERE username=?;";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, "Offline");
+                stmt.setString(2, MainScreen.user);
+                stmt.execute();
+            }
+            catch (SQLException ex) {
+                System.out.println("Could Not Save Status");
+            }
+
             user = name = type = null;
             ps.close();
             new LoginScreen().start(new Stage());
@@ -152,6 +162,10 @@ public class MainScreen extends Application {
             new BackupRestore().start(new Stage());
         });
 
+        profile.setOnAction(e -> {
+            ps.close();
+            new UserProfile().start(new Stage());
+        });
 
         compose.setOnAction(e -> {
             ps.close();
@@ -161,7 +175,19 @@ public class MainScreen extends Application {
         pane.setOnKeyPressed(k -> {
             switch(k.getCode()) {
                 case ESCAPE:
-                    name = user = type = null;
+                    try {
+                        Connection conn = Database.connect(Database.HOST, Database.USER, Database.PASS, Database.DB);
+                        String sql = "UPDATE users SET status=? WHERE username=?;";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setString(1, "Offline");
+                        stmt.setString(2, MainScreen.user);
+                        stmt.execute();
+                    }
+                    catch (SQLException ex) {
+                        System.out.println("Could Not Save Status");
+                    }
+
+                    user = name = type = null;
                     ps.close();
                     new LoginScreen().start(new Stage());
                     break;
@@ -174,6 +200,8 @@ public class MainScreen extends Application {
                     new Directory().start(new Stage());
                     break;
                 case P:
+                    ps.close();
+                    new UserProfile().start(new Stage());
                     break;
                 case A:
                     if(!MainScreen.type.equalsIgnoreCase("standard")) {

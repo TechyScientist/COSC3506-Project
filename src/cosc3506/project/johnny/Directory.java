@@ -27,6 +27,7 @@ public class Directory extends Application {
             new Label("User ID"),
             new Label("Username"),
             new Label("Name"),
+            new Label("Status"),
             new Label("User Type")
     };
     @Override
@@ -56,7 +57,7 @@ public class Directory extends Application {
         outer.add(execSearch, 4, 0);
 
         outer.add(pane, 0, 1,
-                (!MainScreen.type.equalsIgnoreCase("standard") ? 4 : 3), 1);
+                (!MainScreen.type.equalsIgnoreCase("standard") ? 5 : 4), 1);
 
         execSearch.setOnAction(e -> search(search, inner, searchOn.getSelectionModel().getSelectedItem()));
 
@@ -118,8 +119,9 @@ public class Directory extends Application {
                 gpane.add(new Label(set.getInt("id") + ""), 0, ++row);
                 gpane.add(new Label(set.getString("username")), 1, row);
                 gpane.add(new Label(set.getString("name")), 2, row);
+                gpane.add(new Label(set.getString("status")), 3, row);
                 if(!MainScreen.type.equalsIgnoreCase("standard")) {
-                   gpane.add(new Label(set.getString("type")), 3, row);
+                   gpane.add(new Label(set.getString("type")), 4, row);
                 }
 
 
@@ -129,7 +131,7 @@ public class Directory extends Application {
                 Label l = new Label("No users found matching \"" + term.getText() + "\"");
                 GridPane.setHalignment(l, HPos.CENTER);
                 gpane.add(l, 0, 1,
-                        (!MainScreen.type.equalsIgnoreCase("standard") ? 4 : 3), 1);
+                        (!MainScreen.type.equalsIgnoreCase("standard") ? 5 : 4), 1);
             }
         }
         catch(SQLException ex) {
