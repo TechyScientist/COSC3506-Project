@@ -10,4 +10,8 @@ I made the following files:
   AdminPasswordReset.java - administrators can reset the passwords of users they have added
   Inbox.java - The message list screen
   MessageWindow.java - A window to display the messages
-  IDButton - A Button class, used with Inbox to tell which message to view or delete
+  IDButton.java - A Button class, used with Inbox to tell which message to view or delete
+  Message.java - A class to wrap messages (used when backing up and restoring)
+  BackupRestore.java - Back up and restore messages
+  Compose.java - Send a message
+  UserProfile.java - Set status message and reset password
