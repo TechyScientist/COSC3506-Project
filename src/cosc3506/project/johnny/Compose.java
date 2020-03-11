@@ -14,9 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class Compose extends Application {
 
@@ -66,6 +63,11 @@ public class Compose extends Application {
                 ps.close();
                 new MainScreen().start(new Stage());
             }
+        });
+
+        ps.setOnCloseRequest(e -> {
+            ps.close();
+            new MainScreen().start(new Stage());
         });
 
         ps.setScene(new Scene(pane));
