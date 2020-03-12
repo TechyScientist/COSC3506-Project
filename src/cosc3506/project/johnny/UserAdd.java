@@ -102,7 +102,7 @@ public class UserAdd extends Application {
                 if(!name.getText().equals("") && !username.getText().equals("") && !pass.getText().equals("") &&
                     !conf.getText().equals("")) {
                     if (pass.getText().equals(conf.getText())) {
-                        sql = "INSERT INTO users (username, name, password, type, added_by) VALUES(?,?,?,?,?);";
+                        sql = "INSERT INTO users (username, name, password, type, added_by, status) VALUES(?,?,?,?,?, \"Offline\");";
                         PreparedStatement pstmt = conn.prepareStatement(sql);
                         pstmt.setString(1, username.getText().toLowerCase());
                         pstmt.setString(2, name.getText());
