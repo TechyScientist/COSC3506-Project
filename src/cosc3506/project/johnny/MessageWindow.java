@@ -75,7 +75,6 @@ public class MessageWindow extends Application {
         pane.setOnKeyPressed(k -> {
             if(k.getCode() == KeyCode.ESCAPE) {
                 ps.close();
-                new MainScreen().start(new Stage());
             }
         });
 
