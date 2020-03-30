@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: cosc3506.project.johnny.LoginScreen
+

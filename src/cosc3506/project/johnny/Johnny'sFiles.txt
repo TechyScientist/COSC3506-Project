@@ -1,1 +1,17 @@
 The files in this package were written by Johnny C.
+
+I made the following files:
+  LoginScreen.java - the login screen
+  MainScreen.java - the home screen for logged in users
+  Directory.java - a user directory
+  UserAdd.java - administrators can add users here
+  UserDel.java - administrators can delete users they have added
+  UserMod.java - administrators can promote or demote users they have added
+  AdminPasswordReset.java - administrators can reset the passwords of users they have added
+  Inbox.java - The message list screen
+  MessageWindow.java - A window to display the messages
+  IDButton.java - A Button class, used with Inbox to tell which message to view or delete
+  Message.java - A class to wrap messages (used when backing up and restoring)
+  BackupRestore.java - Back up and restore messages
+  Compose.java - Send a message
+  UserProfile.java - Set status message and reset password
